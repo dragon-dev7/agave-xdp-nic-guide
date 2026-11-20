@@ -1,0 +1,14 @@
+[Unit]
+Description=NIC ring and channel settings for Agave XDP
+Requires=sys-subsystem-net-devices-enp2s0f1np1.device
+After=sys-subsystem-net-devices-enp2s0f1np1.device
+Before=solana.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/sbin/ethtool -G enp2s0f1np1 rx 1024 tx 1024
+ExecStart=-/usr/sbin/ethtool -L enp2s0f1np1 combined 8
+
+[Install]
+WantedBy=multi-user.target
